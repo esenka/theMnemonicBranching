@@ -1,0 +1,29 @@
+body{
+    font-family: sans-serif;
+}
+
+h1{
+    color: black;
+    text-align: center;
+}
+
+button {
+    background: pink;
+    color: black;
+    border: none;
+    display: block;
+    width: 200px;
+    height: 48px;
+    margin: auto;
+    position: relative;
+    margin-top: 32px;
+}
+
+.charrnn *{
+    text-align: center;
+}
+
+canvas {
+    display:block;
+    margin: auto;
+ }
