@@ -45,7 +45,7 @@ function setup() {
 	video.hide();
 	detector.detect(video, gotDetections);
 
-	button = createButton("ART");
+	button = createButton("Generate your artwork");
 	button.mousePressed(generateArt);
 
 	// ------- CHARRNN SETUP --------
