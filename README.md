@@ -14,4 +14,11 @@
     - The image is not being edited right now. Look for generative methods to mess up the image taken from the webcam
 
 
-
+- **More Title Ideas**
+    - In Questioning of the Given
+    - This is You
+    - i didn't do it, computer did
+    - What Pixels See
+    - Mother of Randomness
+    - You are Here
+    - In the name of all the artworks out there
