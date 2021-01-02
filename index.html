@@ -20,30 +20,27 @@
 </head>
 
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="https://anaherruzo.com/WISIWYG-THE-GETTY-MUSEUM">Inspiration</a> </li>
-        <li><a href="https://esenka.co">Esen</a> </li>
-        <li><a href="https://crespi.design/">Francisco</a> </li>
-      </ul>
-    </nav>
-  </header>
   <script src="sketch.js"></script>
   <script src="charRNN.js"></script>
   <script src="cocoSSD.js"></script>
   <div class="container">
-    <h1>The Mnemonic Branching</h1>
+    <div class="title">
+      <h1>The Mnemonic Branching</h1>
+      <p> This project which combines multiple ML algortihms to create one-of-a-kind artwork that generates and labels itself based on your webcam input.</p>
+    </div>
+    <div class="charrnn">
+      <p id="status">Loading charRNN Model</p>
+      <p id="result"></p>
   </div>
-  <div class="charrnn">
-    <p id="status">Loading charRNN Model</p>
-    <p id="result"></p>
-     
-  <p> This project which combines multiple ML algortihms to create one-of-a-kind artwork that generates and labels itself based on your webcam input .</p>
-   
-  
+  <div id="canvascontainer"></div>
+  <div id="buttoncontainer"></div>
+  <footer>
+    <ul>
+      <li><a href="https://anaherruzo.com/WISIWYG-THE-GETTY-MUSEUM">Inspiration</a> </li>
+      <li><a href="https://esenka.co">Esen</a> </li>
+      <li><a href="https://crespi.design/">Francisco</a> </li>
+    </ul>
+  </footer>
 </body>
-
 <link rel="stylesheet" type="text/css" href="style/style.css">
-
 </html>

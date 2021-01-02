@@ -34,23 +34,17 @@ let img;
 
 var rightBuffer;
 
-
-
-
 function setup() {
 	// ------- COCOSSD SETUP --------
-	createCanvas(1360, 544);
-	background(250);
+	var myCanvas = createCanvas(1272, 482);
+    myCanvas.parent("canvascontainer");
+	background(255);
+	imagePlaceholders();
+	showButtons();
 	video = createCapture(VIDEO);
-	video.size(640, 480);
+	video.size(600, 450);
 	video.hide();
 	detector.detect(video, gotDetections);
-
-	button = createButton("Generate your artwork");
-	button.mousePressed(generateArt);
-
-	savebutton = createButton("Download it!");
-	savebutton.mousePressed(saveAsCanvas);
 
 	// ------- CHARRNN SETUP --------
 	// Create the LSTM Generator passing it the model directory
@@ -66,7 +60,7 @@ function setup() {
 
 function draw() {
 	// ------- COCOSSD DRAW --------
-	image(video, 32, 32);
+	image(video, 16, 16);
 	fill(0);
 	for (let i = 0; i < detections.length; i++) {
 		let object = detections[i];
@@ -83,6 +77,29 @@ function draw() {
 	}
 }
 
+// set rectangle placeholders
+function imagePlaceholders(){
+	noFill();
+	strokeWeight(2);
+	stroke(200,200,200);
+	rect(16,16,600,450);
+	rect(656,16,600,450);
+	textAlign(CENTER,CENTER);
+	noStroke();
+	fill(100);
+	text('Your camera input will appear here', 16+600/2, 16+450/2);
+	text('Your artwork will appear here', 656+600/2, 16+450/2);
+}
+
+function showButtons(){
+	generatebutton = createButton("Generate your artwork");
+	generatebutton.mousePressed(generateArt);
+	generatebutton.parent("buttoncontainer");
+	savebutton = createButton("Download it!");
+	savebutton.mousePressed(saveAsCanvas);
+	savebutton.parent("buttoncontainer");
+}
+
 function saveAsCanvas() { 
 	save("your_artwork.png"); 
   } 
@@ -90,31 +107,31 @@ function saveAsCanvas() {
 function generateArt() {
 	// prevent starting inference if we've already started another instance
 	if (!runningInference) {
-	  runningInference = true;
-  
-	  // Update the status log
-	  status.innerHTML = 'Generating...';
-  
-	  // Create a string with temporaryLabels
-	  const txt = temporaryLabels[Math.floor(Math.random() * temporaryLabels.length)];
-  
-	  // This is what the LSTM generator needs
-	  // Seed text, temperature, length to outputs
-	  // TODO: What are the defaults?
-	  const data = {
-		seed: txt,
-		temperature: 1,
-		length: 20
-	  };
-  
-	  // Generate text with the charRNN
-	  charRNN.generate(data, gotData);
-	  
-	  image(video,video.width+48,32);
-  
-	  newFrame = createImage(230, 230);
-	  image(newFrame,100,100);
-    blend(image, 0, 0, 33, 100, 67, 0, 33, 100, DARKEST);
+		runningInference = true;
+
+		// Update the status log
+		status.innerHTML = 'Generating...';
+
+		// Create a string with temporaryLabels
+		const txt = temporaryLabels[Math.floor(Math.random() * temporaryLabels.length)];
+
+		// This is what the LSTM generator needs
+		// Seed text, temperature, length to outputs
+		// TODO: What are the defaults?
+		const data = {
+			seed: txt,
+			temperature: 1,
+			length: 20
+		};
+
+		// Generate text with the charRNN
+		charRNN.generate(data, gotData);
+
+		image(video,video.width+56,16);
+
+		newFrame = createImage(230, 230);
+		image(newFrame,100,100);
+		blend(image, 0, 0, 33, 100, 67, 0, 33, 100, DARKEST);
   
   
   
