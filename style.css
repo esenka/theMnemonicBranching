@@ -61,6 +61,7 @@ canvas {
  }
 
 p {
+  text-align: center;
   animation-duration: 3s;
   animation-name: slidein;
   animation-iteration-count: 1;
