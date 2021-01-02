@@ -5,6 +5,7 @@ let detections = [];
 let temporaryLabels = [];
 let finalLabels = [];
 let button, greeting;
+let savebutton;
 
 
 // ------- CHARRNN VARS --------
@@ -48,6 +49,9 @@ function setup() {
 	button = createButton("Generate your artwork");
 	button.mousePressed(generateArt);
 
+	savebutton = createButton("Download it!");
+	savebutton.mousePressed(saveAsCanvas);
+
 	// ------- CHARRNN SETUP --------
 	// Create the LSTM Generator passing it the model directory
 	charRNN = ml5.charRNN('./models/hemingway/', modelReady);
@@ -78,6 +82,10 @@ function draw() {
 		temporaryLabels[i] = object.label;
 	}
 }
+
+function saveAsCanvas() { 
+	save("your_artwork.png"); 
+  } 
 
 function generateArt() {
 	// prevent starting inference if we've already started another instance
@@ -126,3 +134,4 @@ function generateArt() {
   
 	}
   }
+
