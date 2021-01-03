@@ -9,15 +9,15 @@ Use this command in the project folder:
 python3 -m http.server
 
 ## To-do list
-- **UI**
-    - General layout: 
-    - Fixe the green squares exceed the camera recording and leave a trace in the sketch
-    - Loading states are static, would be cool if we could add a spinner animation or something when the models are loading
-
+- **CharRNN**
+    - Make the title use some of the labels from the input
+    
 - **Artwork**
     - The image is not being edited right now. Look for generative methods to mess up the image taken from the webcam
-
-
+    
+- **Artwork Download (WIP)**
+    - Make the app take a screenshot of just the right side and the title
+    
 - **More Title Ideas**
     - In Questioning of the Given
     - This is You
