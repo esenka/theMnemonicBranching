@@ -4,6 +4,10 @@
 - Added the save button
 - Somehow the new frame is assigned as the video so the video get's generative, might need to have a look at the variable hierarchy
 
+## Run the project
+Use this command in the project folder:
+python3 -m http.server
+
 ## To-do list
 - **UI**
     - General layout: 
