@@ -21,10 +21,6 @@ let temperatureText;
 
 let resultText;
 
-// ------- ATTNGAN VARS --------
-//let raw = new Image();
-
-
 //define variables
 let input_text;
 let post_image;
@@ -48,7 +44,7 @@ function setup() {
 
 	// ------- CHARRNN SETUP --------
 	// Create the LSTM Generator passing it the model directory
-	charRNN = ml5.charRNN('./models/hemingway/', modelReady);
+	charRNN = ml5.charRNN('./models/woolf/', modelReady);
 
 	// Grab the DOM elements
 	status = document.querySelector('#status')
@@ -94,10 +90,7 @@ function imagePlaceholders(){
 function showButtons(){
 	generatebutton = createButton("Generate your artwork");
 	generatebutton.mousePressed(generateArt);
-	generatebutton.parent("buttoncontainer");
-	savebutton = createButton("Download it!");
-	savebutton.mousePressed(saveAsCanvas);
-	savebutton.parent("buttoncontainer");
+	generatebutton.parent("generatebutton");
 }
 
 function saveAsCanvas() { 
@@ -109,8 +102,7 @@ function generateArt() {
 	if (!runningInference) {
 		runningInference = true;
 
-		// Update the status log
-		status.innerHTML = 'Generating...';
+		resultText.innerHTML = 'Generating title';
 
 		// Create a string with temporaryLabels
 		const txt = temporaryLabels[Math.floor(Math.random() * temporaryLabels.length)];
@@ -132,8 +124,7 @@ function generateArt() {
 		newFrame = createImage(230, 230);
 		image(newFrame,100,100);
 		blend(image, 0, 0, 33, 100, 67, 0, 33, 100, DARKEST);
-  
-  
+
   
 	  // When it's done
 	  function gotData(err, result) {
@@ -142,6 +133,10 @@ function generateArt() {
 		//Place the resulting title in the HTML element, after removing all dots and placing a doy symbol in the end.
 		resultText.innerHTML = result.sample.toLowerCase().split('.').join("").trim().replace(/^\w/, (c) => c.toUpperCase()) + ".";
 		runningInference = false;
+
+		savebutton = createButton("Download it!");
+		savebutton.mousePressed(saveAsCanvas);
+		savebutton.parent("savebutton");
 
 		// Generate attngan image
 		sendText(txt);

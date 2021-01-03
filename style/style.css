@@ -76,6 +76,13 @@ body{
   color: #333333;
 }
 
+.charrnn{
+  position: absolute;
+  top: 800px;
+  display: block;
+  align-self: center;
+}
+
 .container{
   display: flex;
   flex-direction: column;
@@ -121,11 +128,29 @@ footer ul li{
   margin: 0 24px;
 }
 
-#buttoncontainer{
+.buttonscontainer{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  margin-top: 32px;
+  justify-content: flex-start;
+  margin-top: 16px;
+}
+
+#generatebutton, #savebutton{
+  display: flex;
+  width: 50%;
+  justify-content: center;
+}
+
+#savebutton{
+  flex-direction: column;
+  align-items: center;
+}
+
+#result{
+  font-size: 1.5em;
+  line-height: 2em;
+  font-weight: 800;
+  margin-top: 0;
 }
 
 nav {
@@ -172,7 +197,6 @@ button {
     height: 48px;
     position: relative;
     font-weight: bold;
-    
 }
 
 
@@ -199,5 +223,11 @@ p {
     margin-left: 0%;
     width: 100%;
   }
+}
+
+/* will add disappearance animation later*/
+
+.disappear{
+  opacity: 0;
 }
 
