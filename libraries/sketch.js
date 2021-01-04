@@ -7,7 +7,6 @@ let finalLabels = [];
 let button, greeting;
 let savebutton;
 
-
 // ------- CHARRNN VARS --------
 let charRNN;
 let textInput;
@@ -19,28 +18,23 @@ let status;
 let lengthText;
 let temperatureText;
 
-let resultText;
-
-//define variables
-let input_text;
-let post_image;
-let send_btn;
-let newimg;
-let img;
+let resultText = " ";
 
 var rightBuffer;
 
 function setup() {
 	// ------- COCOSSD SETUP --------
-	var myCanvas = createCanvas(1272, 482);
+	var myCanvas = createCanvas(1272, 510);
 	myCanvas.parent("canvascontainer");
 	background(255);
-	imagePlaceholders();
 	showButtons();
 	video = createCapture(VIDEO);
 	video.size(600, 450);
 	video.hide();
 	detector.detect(video, gotDetections);
+
+	// Create a canvas that will be used to save the artwork later
+	saveCanvas =  createGraphics(636, 510);
 
 	// ------- CHARRNN SETUP --------
 	// Create the LSTM Generator passing it the model directory
@@ -48,13 +42,14 @@ function setup() {
 
 	// Grab the DOM elements
 	status = document.querySelector('#status')
-	resultText = document.querySelector('#result')
 
 	// ------- ATTNGAN SETUP --------
 	rightBuffer = createGraphics(400, 400);
 }
 
 function draw() {
+	background(255);
+	imagePlaceholders();
 	// ------- COCOSSD DRAW --------
 	image(video, 16, 16);
 	fill(0);
@@ -67,10 +62,14 @@ function draw() {
 		noStroke();
 		fill(255);
 		textSize(16);
-		text(object.label, object.x + 10, object.y + 24);
+		text(object.label, object.x+32, object.y+16);
 		//store labels dynamically with each detection
 		temporaryLabels[i] = object.label;
 	}
+
+	// Artwork title
+	fill(0);
+	text(resultText, 656 + 600 / 2, 488);
 }
 
 // set rectangle placeholders
@@ -93,18 +92,21 @@ function showButtons() {
 	generatebutton.parent("generatebutton");
 }
 
+//download artwork
 function saveAsCanvas() {
-	save("your_artwork.png");
+    let c = get(width/2,0, width, height);
+    saveCanvas.image(c, 0, 0);
+    save(saveCanvas, frameCount+".png");
 }
 
-
-
 function generateArt() {
+	resultText = 'Generating title';
+
 	// prevent starting inference if we've already started another instance
 	if (!runningInference) {
 		runningInference = true;
-
-		resultText.innerHTML = 'Generating title';
+		
+		// reset label and change to "generating title"
 
 		// Create a string with temporaryLabels
 		const txt = temporaryLabels[Math.floor(Math.random() * temporaryLabels.length)];
@@ -121,27 +123,23 @@ function generateArt() {
 		// Generate text with the charRNN
 		charRNN.generate(data, gotData);
 
-		image(video, video.width + 56, 16);
+		resultImage = image(video, video.width + 56, 16);
 
 		filter(GRAY);
-
 		// When it's done
 		function gotData(err, result) {
-			// Update the status log
-			status.innerHTML = 'Ready!';
-			//Place the resulting title in the HTML element, after removing all dots and placing a doy symbol in the end.
-			resultText.innerHTML = result.sample.toLowerCase().split('.').join("").trim().replace(/^\w/, (c) => c.toUpperCase()) + ".";
+			
+			// reset label and change to "generating title"
+			resultText = result.sample.toLowerCase().split('.').join("").trim().replace(/^\w/, (c) => c.toUpperCase()) + ".";
+
 			runningInference = false;
 
 			if (!savebutton) {
-				savebutton = createButton("Download it!");
+				savebutton = createButton("Download");
 				savebutton.mousePressed(saveAsCanvas);
 				savebutton.parent("savebutton");
 				savebutton.addClass('save');
 			}
-
-			// Generate attngan image
-			sendText(txt);
 		}
 	}
 }
