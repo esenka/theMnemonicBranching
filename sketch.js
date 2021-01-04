@@ -121,9 +121,12 @@ function generateArt() {
 
 		image(video,video.width+56,16);
 
-		newFrame = createImage(230, 230);
-		image(newFrame,100,100);
-		blend(image, 0, 0, 33, 100, 67, 0, 33, 100, DARKEST);
+		filter(GRAY);
+	
+
+		//newFrame = createImage(230, 230);
+		//image(newFrame,100,100);
+		
 
   
 	  // When it's done
