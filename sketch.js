@@ -33,7 +33,7 @@ var rightBuffer;
 function setup() {
 	// ------- COCOSSD SETUP --------
 	var myCanvas = createCanvas(1272, 482);
-    myCanvas.parent("canvascontainer");
+	myCanvas.parent("canvascontainer");
 	background(255);
 	imagePlaceholders();
 	showButtons();
@@ -49,7 +49,7 @@ function setup() {
 	// Grab the DOM elements
 	status = document.querySelector('#status')
 	resultText = document.querySelector('#result')
-	
+
 	// ------- ATTNGAN SETUP --------
 	rightBuffer = createGraphics(400, 400);
 }
@@ -74,28 +74,30 @@ function draw() {
 }
 
 // set rectangle placeholders
-function imagePlaceholders(){
+function imagePlaceholders() {
 	noFill();
 	strokeWeight(2);
-	stroke(200,200,200);
-	rect(16,16,600,450);
-	rect(656,16,600,450);
-	textAlign(CENTER,CENTER);
+	stroke(200, 200, 200);
+	rect(16, 16, 600, 450);
+	rect(656, 16, 600, 450);
+	textAlign(CENTER, CENTER);
 	noStroke();
 	fill(100);
-	text('Your camera input will appear here', 16+600/2, 16+450/2);
-	text('Your artwork will appear here', 656+600/2, 16+450/2);
+	text('Your camera input will appear here', 16 + 600 / 2, 16 + 450 / 2);
+	text('Your artwork will appear here', 656 + 600 / 2, 16 + 450 / 2);
 }
 
-function showButtons(){
+function showButtons() {
 	generatebutton = createButton("Generate your artwork");
 	generatebutton.mousePressed(generateArt);
 	generatebutton.parent("generatebutton");
 }
 
-function saveAsCanvas() { 
-	save("your_artwork.png"); 
-  } 
+function saveAsCanvas() {
+	save("your_artwork.png");
+}
+
+
 
 function generateArt() {
 	// prevent starting inference if we've already started another instance
@@ -119,34 +121,28 @@ function generateArt() {
 		// Generate text with the charRNN
 		charRNN.generate(data, gotData);
 
-		image(video,video.width+56,16);
+		image(video, video.width + 56, 16);
 
 		filter(GRAY);
-	
 
-		//newFrame = createImage(230, 230);
-		//image(newFrame,100,100);
-		
+		// When it's done
+		function gotData(err, result) {
+			// Update the status log
+			status.innerHTML = 'Ready!';
+			//Place the resulting title in the HTML element, after removing all dots and placing a doy symbol in the end.
+			resultText.innerHTML = result.sample.toLowerCase().split('.').join("").trim().replace(/^\w/, (c) => c.toUpperCase()) + ".";
+			runningInference = false;
 
-  
-	  // When it's done
-	  function gotData(err, result) {
-		// Update the status log
-		status.innerHTML = 'Ready!';
-		//Place the resulting title in the HTML element, after removing all dots and placing a doy symbol in the end.
-		resultText.innerHTML = result.sample.toLowerCase().split('.').join("").trim().replace(/^\w/, (c) => c.toUpperCase()) + ".";
-		runningInference = false;
+			if (!savebutton) {
+				savebutton = createButton("Download it!");
+				savebutton.mousePressed(saveAsCanvas);
+				savebutton.parent("savebutton");
+				savebutton.addClass('save');
+			}
 
-		savebutton = createButton("Download it!");
-		savebutton.mousePressed(saveAsCanvas);
-		savebutton.parent("savebutton");
-
-		// Generate attngan image
-		sendText(txt);
-	  }
-  
-  
-  
+			// Generate attngan image
+			sendText(txt);
+		}
 	}
-  }
+}
 
