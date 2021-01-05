@@ -1,26 +1,26 @@
-//------ COCOSSD VARS ------
+// COCOSSD VARS
 let video;
 let detector;
 let detections = [];
 let temporaryLabels = [];
-let finalLabels = [];
 let button, greeting;
 let savebutton;
 
-// ------- CHARRNN VARS --------
+// CHARRNN VARS
 let charRNN;
-let textInput;
-let lengthSlider;
-let tempSlider;
 let runningInference = false;
 let status;
+let txt;
 
 let lengthText;
 let temperatureText;
 
+// Artwork title
 let resultText = " ";
+
+// Image intervention
+
 var generateArtNow;
-let newFrame;
 
 var rightBuffer;
 var capture;
@@ -49,9 +49,6 @@ function setup() {
 
 	// Grab the DOM elements
 	status = document.querySelector('#status')
-
-	// ------- ATTNGAN SETUP --------
-	rightBuffer = createGraphics(400, 400);
 
 	capture = createCapture(VIDEO); // feed
     capture.size(640, 480);
@@ -90,9 +87,6 @@ function draw() {
 	if (generateArtNow){
 		image(video, video.width + 56, 16);
 		drawAllPixels();
-		//newFrame = createImage(230, 230);
-		//image(newFrame,100,100);
-
 	}
 }
 
@@ -120,21 +114,21 @@ function showButtons() {
 function saveAsCanvas() {
     let c = get(width/2,0, width, height);
     saveCanvas.image(c, 0, 0);
-    save(saveCanvas, frameCount+".png");
+    save(saveCanvas, "artwork.png");
 }
 
 function generateArt() {
 	generateArtNow = !generateArtNow;
+
+	// reset label and change to "generating title"
 	resultText = 'Generating title';
 
 	// prevent starting inference if we've already started another instance
 	if (!runningInference) {
 		runningInference = true;
-		
-		// reset label and change to "generating title"
-
+	
 		// Create a string with temporaryLabels
-		const txt = temporaryLabels[Math.floor(Math.random() * temporaryLabels.length)];
+		txt = temporaryLabels[Math.floor(Math.random() * temporaryLabels.length)];
 
 		// This is what the LSTM generator needs
 		// Seed text, temperature, length to outputs
@@ -147,10 +141,6 @@ function generateArt() {
 
 		// Generate text with the charRNN
 		charRNN.generate(data, gotData);
-
-		resultImage = image(video, video.width + 56, 16);
-
-		//filter(GRAY);
 		// When it's done
 		function gotData(err, result) {
 			
