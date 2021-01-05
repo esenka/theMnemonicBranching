@@ -19,8 +19,15 @@ let lengthText;
 let temperatureText;
 
 let resultText = " ";
+var generateArtNow;
+let newFrame;
 
 var rightBuffer;
+var capture;
+var camWidth, camHeight;
+var pd = 10; // pixel Density
+var widthsize;
+var heightsize;
 
 function setup() {
 	// ------- COCOSSD SETUP --------
@@ -45,6 +52,15 @@ function setup() {
 
 	// ------- ATTNGAN SETUP --------
 	rightBuffer = createGraphics(400, 400);
+
+	capture = createCapture(VIDEO); // feed
+    capture.size(640, 480);
+    capture.hide();
+    // Assuming a 640 * 480 pixels camera
+    camWidth = 640;
+    camHeight = 480;
+	widthsize = windowWidth/1220;
+	heightsize = windowHeight/1180;
 }
 
 function draw() {
@@ -70,6 +86,14 @@ function draw() {
 	// Artwork title
 	fill(0);
 	text(resultText, 656 + 600 / 2, 488);
+
+	if (generateArtNow){
+		image(video, video.width + 56, 16);
+		drawAllPixels();
+		//newFrame = createImage(230, 230);
+		//image(newFrame,100,100);
+
+	}
 }
 
 // set rectangle placeholders
@@ -100,6 +124,7 @@ function saveAsCanvas() {
 }
 
 function generateArt() {
+	generateArtNow = !generateArtNow;
 	resultText = 'Generating title';
 
 	// prevent starting inference if we've already started another instance
@@ -125,7 +150,7 @@ function generateArt() {
 
 		resultImage = image(video, video.width + 56, 16);
 
-		filter(GRAY);
+		//filter(GRAY);
 		// When it's done
 		function gotData(err, result) {
 			
@@ -144,3 +169,24 @@ function generateArt() {
 	}
 }
 
+function drawAllPixels() {
+    var x, y;
+    capture.loadPixels();
+    // Divide by 2 and multiply index by 8 is to reduce the final resolution
+    for (y = 0; y < camHeight; y+=pd) {
+        for (x = 0; x < camWidth; x+=pd) {
+            var idx = 4 * (y * camWidth + x);
+			push();
+			translate(windowWidth-x*widthsize-pd*widthsize, y*heightsize);
+			rotate(radians(capture.pixels[idx]));
+			noStroke();
+            fill(capture.pixels[idx],capture.pixels[idx+1],capture.pixels[idx+2],capture.pixels[idx+3]);
+            rect(0,0,pd*widthsize+30,pd*heightsize+30);
+			noFill();
+			stroke(0);
+			//ellipse(0,0,pd*widthsize-2,pd*heightsize-2);
+			pop();
+        }
+    }
+
+}
