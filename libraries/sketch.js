@@ -54,10 +54,10 @@ function setup() {
     capture.size(640, 480);
     capture.hide();
     // Assuming a 640 * 480 pixels camera
-    camWidth = 640;
-    camHeight = 480;
-	widthsize = windowWidth/1220;
-	heightsize = windowHeight/1180;
+    camWidth = 600;
+    camHeight = 450;
+	widthsize = windowWidth/950;
+	heightsize = windowHeight/1000;
 }
 
 function draw() {
@@ -157,6 +157,7 @@ function generateArt() {
 			}
 		}
 	}
+	noloop();
 }
 
 function drawAllPixels() {
@@ -167,14 +168,13 @@ function drawAllPixels() {
         for (x = 0; x < camWidth; x+=pd) {
             var idx = 4 * (y * camWidth + x);
 			push();
-			translate(windowWidth-x*widthsize-pd*widthsize, y*heightsize);
+			translate(windowWidth-x*widthsize-pd*widthsize-50, y*heightsize-60);
 			rotate(radians(capture.pixels[idx]));
 			noStroke();
             fill(capture.pixels[idx],capture.pixels[idx+1],capture.pixels[idx+2],capture.pixels[idx+3]);
-            rect(0,0,pd*widthsize+30,pd*heightsize+30);
+            rect(0,0,pd*widthsize+10,pd*heightsize+20);
 			noFill();
 			stroke(0);
-			//ellipse(0,0,pd*widthsize-2,pd*heightsize-2);
 			pop();
         }
     }
