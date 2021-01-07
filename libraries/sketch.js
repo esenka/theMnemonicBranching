@@ -105,9 +105,9 @@ function imagePlaceholders() {
 }
 
 function showButtons() {
-	generatebutton = createButton("Generate your artwork");
-	generatebutton.mousePressed(generateArt);
-	generatebutton.parent("generatebutton");
+	 generatebutton = createButton("Generate your artwork");
+	 generatebutton.mousePressed(generateArt);
+	 generatebutton.parent("generatebutton");
 }
 
 //download artwork
@@ -136,7 +136,7 @@ function generateArt() {
 		const data = {
 			seed: txt,
 			temperature: 1,
-			length: 20
+			length: random(15,25)
 		};
 
 		// Generate text with the charRNN
@@ -145,7 +145,7 @@ function generateArt() {
 		function gotData(err, result) {
 			
 			// reset label and change to "generating title"
-			resultText = result.sample.toLowerCase().split('.').join("").trim().replace(/^\w/, (c) => c.toUpperCase()) + ".";
+			resultText = result.sample.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:''",.<>\{\}\[\]\\\/]/gi, '') + ".";
 
 			runningInference = false;
 
