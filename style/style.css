@@ -141,9 +141,12 @@ footer ul li{
   justify-content: center;
 }
 
-#savebutton{
-  flex-direction: column;
-  align-items: center;
+#saveascanvas{
+  opacity: 0;
+}
+
+.displayButton{
+  opacity: 1 !important;
 }
 
 nav {
@@ -176,7 +179,6 @@ h1{
     color: black;
     text-align: center;
     animation-fill-mode: forwards;
-    transform: translateY(-20x);    
 }
 
 button {

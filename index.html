@@ -10,8 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Mnemonic Branching</title>
 
-  <script src="libraries/p5.js"></script>
-  <script src="libraries/p5.dom.js"></script>
+  <script src="libraries/p5.min.js"></script>
   <script src="libraries/sketch.js"></script>
   <script src="libraries/charRNN.js"></script>
   <script src="libraries/cocoSSD.js"></script>
@@ -32,8 +31,11 @@
     </div>
     <div id="canvascontainer"></div>
     <div class="buttonscontainer">
-      <div id="generatebutton"></div>
+      <div id="generatebutton">
+        <button onclick="generateArt();">GENERATE ARTWORK</button>
+      </div>
       <div id="savebutton">
+        <button id="saveascanvas" onclick="saveAsCanvas();">DOWNLOAD  </button>
       </div>
     </div>
     <footer>

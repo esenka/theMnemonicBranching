@@ -34,7 +34,6 @@ function setup() {
 	var myCanvas = createCanvas(1272, 510);
 	myCanvas.parent("canvascontainer");
 	background(255);
-	showButtons();
 	video = createCapture(VIDEO);
 	video.size(600, 450);
 	video.hide();
@@ -104,11 +103,6 @@ function imagePlaceholders() {
 	text('Your artwork will appear here', 656 + 600 / 2, 16 + 450 / 2);
 }
 
-function showButtons() {
-	 generatebutton = createButton("Generate your artwork");
-	 generatebutton.mousePressed(generateArt);
-	 generatebutton.parent("generatebutton");
-}
 
 //download artwork
 function saveAsCanvas() {
@@ -145,16 +139,12 @@ function generateArt() {
 		function gotData(err, result) {
 			
 			// reset label and change to "generating title"
-			resultText = result.sample.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:''",.<>\{\}\[\]\\\/]/gi, '') + ".";
+			resultText = result.sample.toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') + ".";
 
 			runningInference = false;
 
-			if (!savebutton) {
-				savebutton = createButton("Download");
-				savebutton.mousePressed(saveAsCanvas);
-				savebutton.parent("savebutton");
-				savebutton.addClass('save');
-			}
+			savebutton = document.getElementById('saveascanvas');
+			savebutton.classList.add('displayButton');
 		}
 	}
 	noloop();
